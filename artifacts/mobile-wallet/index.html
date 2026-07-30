@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>RefugeeID Wallet</title>
+    <link rel="preconnect" href="http://localhost:3000" />
+    <link rel="preload" as="script" href="/_expo/static/js/web/APP_BUNDLE.js" />
+    <style id="expo-reset">
+      html, body { height: 100%; }
+      body { overflow: hidden; margin: 0; background: #0f172a; }
+      #root { display: flex; height: 100%; flex: 1; }
+      #root:empty::after {
+        content: '';
+        display: block;
+        width: 36px; height: 36px;
+        margin: calc(50vh - 18px) auto;
+        border: 3px solid #1e293b;
+        border-top-color: #3b82f6;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script>
+      globalThis.__loadBundleAsync = globalThis.__loadBundleAsync || (async (bundle) => {
+        try {
+          const url = bundle.url || bundle;
+          const script = document.createElement('script');
+          script.src = url;
+          document.body.appendChild(script);
+          await new Promise((resolve, reject) => {
+            script.onload = resolve;
+            script.onerror = () => reject(new Error('Failed to load chunk: ' + url));
+          });
+        } catch (e) {
+          console.error('[chunk-loader]', e);
+          throw e;
+        }
+      });
+    </script>
+    <script src="/_expo/static/js/web/APP_BUNDLE.js" defer></script>
+  </body>
+</html>

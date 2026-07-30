@@ -1,0 +1,11 @@
+[build]
+  command = "cd artifacts/refugeeid && npx --yes vite build --config vite.config.ts"
+  publish = "artifacts/refugeeid/dist/public"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,0 +1,74 @@
+{
+  "expo": {
+    "name": "RefugeeID Wallet",
+    "slug": "refugeeid-wallet",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "scheme": "refugeeid",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0f172a"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "org.refugeeid.wallet",
+      "infoPlist": {
+        "NSCameraUsageDescription": "RefugeeID needs camera access to scan QR codes and verify your identity with face recognition.",
+        "NSFaceIDUsageDescription": "RefugeeID uses Face ID to secure your wallet and protect your credentials."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0f172a"
+      },
+      "package": "org.refugeeid.wallet",
+      "permissions": [
+        "CAMERA",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "refugeeid",
+              "host": "*",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "RefugeeID needs camera access to scan QR codes and verify your identity with face recognition."
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "RefugeeID uses Face ID to secure your wallet and protect your credentials."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#3b82f6"
+        }
+      ],
+      "expo-secure-store"
+    ]
+  }
+}
