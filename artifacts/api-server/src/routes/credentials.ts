@@ -106,14 +106,14 @@ router.post("/credentials/claim", claimLimiter, requireAuth, async (req: Request
 
     if (updateError) throw updateError;
 
-    res.json({
+    return res.json({
       success: true,
       credential_id: cred.id,
       given_name: cred.given_name,
       family_name: cred.family_name,
     });
   } catch (err: any) {
-    res.status(500).json({ error: 'An internal error occurred' });
+    return res.status(500).json({ error: 'An internal error occurred' });
   }
 });
 
@@ -152,7 +152,7 @@ router.post("/credentials/verify", verifyLimiter, requireAuth, async (req: Reque
 
     const status = cred.status === 'revoked' ? 'revoked' : 'valid';
 
-    res.json({
+    return res.json({
       status,
       credential: {
         id: cred.id,
@@ -169,7 +169,7 @@ router.post("/credentials/verify", verifyLimiter, requireAuth, async (req: Reque
       has_face_embedding: !!cred.face_embedding,
     });
   } catch (err: any) {
-    res.status(500).json({ error: 'An internal error occurred' });
+    return res.status(500).json({ error: 'An internal error occurred' });
   }
 });
 
