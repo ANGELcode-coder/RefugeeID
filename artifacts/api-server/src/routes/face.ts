@@ -43,7 +43,8 @@ router.post("/face/store", faceLimiter, requireAuth, async (req: Request, res: R
   try {
     const parsed = StoreFaceSchema.safeParse(req.body);
     if (!parsed.success) {
-      return res.status(400).json({ error: 'Validation failed', details: parsed.error.issues });
+      res.status(400).json({ error: 'Validation failed', details: parsed.error.issues });
+      return;
     }
 
     const { credential_id, face_image_url, face_embedding } = parsed.data;
@@ -73,7 +74,8 @@ router.post("/face/verify", faceLimiter, requireAuth, async (req: Request, res: 
   try {
     const parsed = VerifyFaceSchema.safeParse(req.body);
     if (!parsed.success) {
-      return res.status(400).json({ error: 'Validation failed', details: parsed.error.issues });
+      res.status(400).json({ error: 'Validation failed', details: parsed.error.issues });
+      return;
     }
 
     const { credential_id, live_embedding, live_image_base64 } = parsed.data;
@@ -85,11 +87,13 @@ router.post("/face/verify", faceLimiter, requireAuth, async (req: Request, res: 
       .single();
 
     if (fetchError || !cred) {
-      return res.status(404).json({ error: 'Credential not found' });
+      res.status(404).json({ error: 'Credential not found' });
+      return;
     }
 
     if (!cred.face_embedding) {
-      return res.status(400).json({ error: 'No face data on file for this credential' });
+      res.status(400).json({ error: 'No face data on file for this credential' });
+      return;
     }
 
     const storedEmbedding: number[] = JSON.parse(cred.face_embedding);
@@ -103,9 +107,10 @@ router.post("/face/verify", faceLimiter, requireAuth, async (req: Request, res: 
       try {
         faceApi = await import('@vladmandic/face-api');
       } catch {
-        return res.status(501).json({
+        res.status(501).json({
           error: 'Server-side face embedding computation not available. Ensure @vladmandic/face-api is installed.',
         });
+        return;
       }
 
       const canvasModule = await import('canvas');
@@ -127,16 +132,19 @@ router.post("/face/verify", faceLimiter, requireAuth, async (req: Request, res: 
         .withFaceDescriptor();
 
       if (!detection) {
-        return res.status(400).json({ error: 'No face detected in the provided image' });
+        res.status(400).json({ error: 'No face detected in the provided image' });
+        return;
       }
 
       comparisonEmbedding = Array.from(detection.descriptor);
     } else {
-      return res.status(400).json({ error: 'Either live_embedding or live_image_base64 must be provided' });
+      res.status(400).json({ error: 'Either live_embedding or live_image_base64 must be provided' });
+      return;
     }
 
     if (storedEmbedding.length !== comparisonEmbedding.length) {
-      return res.status(400).json({ error: 'Embedding dimension mismatch' });
+      res.status(400).json({ error: 'Embedding dimension mismatch' });
+      return;
     }
 
     const distance = euclideanDistance(storedEmbedding, comparisonEmbedding);

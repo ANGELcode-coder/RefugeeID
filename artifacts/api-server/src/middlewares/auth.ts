@@ -1,4 +1,5 @@
 import { type Request, type Response, type NextFunction } from "express";
+import { type User } from "@supabase/supabase-js";
 
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
@@ -11,7 +12,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
   const token = authHeader.slice(7);
 
   req.app.locals.supabase.auth.getUser(token)
-    .then(({ data: { user }, error }: { data: { user: any }; error: any }) => {
+    .then(({ data: { user }, error }: { data: { user: User | null }, error: Error | null }) => {
       if (error || !user) {
         res.status(401).json({ error: 'Invalid or expired token' });
         return;
@@ -35,7 +36,7 @@ export function optionalAuth(req: Request, _res: Response, next: NextFunction): 
   const token = authHeader.slice(7);
 
   req.app.locals.supabase.auth.getUser(token)
-    .then(({ data: { user } }: { data: { user: any } }) => {
+    .then(({ data: { user } }: { data: { user: User | null } }) => {
       if (user) (req as any).authUser = user;
       next();
     })

@@ -6,7 +6,6 @@ import pinoHttp from "pino-http";
 import { createClient } from "@supabase/supabase-js";
 import router from "./routes";
 import { logger } from "./lib/logger";
-import WebSocket from "ws";
 
 const app: Express = express();
 
@@ -18,11 +17,9 @@ if (!SUPABASE_URL) {
   logger.warn('SUPABASE_URL not set - API endpoints will fail');
 }
 
-const opts = { realtime: { transport: WebSocket } };
-
 const supabaseAdmin = SUPABASE_SERVICE_KEY
-  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, opts)
-  : createClient(SUPABASE_URL, SUPABASE_ANON_KEY, opts);
+  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+  : createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 app.locals.supabase = supabaseAdmin;
 

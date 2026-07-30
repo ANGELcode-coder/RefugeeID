@@ -50,7 +50,8 @@ router.post("/credentials/claim", claimLimiter, requireAuth, async (req: Request
   try {
     const parsed = ClaimSchema.safeParse(req.body);
     if (!parsed.success) {
-      return res.status(400).json({ error: 'Validation failed', details: parsed.error.issues });
+      res.status(400).json({ error: 'Validation failed', details: parsed.error.issues });
+      return;
     }
 
     const { claim_code, user_id, face_embedding } = parsed.data;
@@ -65,26 +66,31 @@ router.post("/credentials/claim", claimLimiter, requireAuth, async (req: Request
     if (fetchError) throw fetchError;
 
     if (!cred) {
-      return res.status(404).json({ error: `No credential found with code "${code}".` });
+      res.status(404).json({ error: `No credential found with code "${code}".` });
+      return;
     }
 
     if (cred.subject_user_id) {
-      return res.status(409).json({ error: 'This code has already been claimed.' });
+      res.status(409).json({ error: 'This code has already been claimed.' });
+      return;
     }
 
     if (new Date(cred.claim_code_expires_at) <= new Date()) {
-      return res.status(410).json({ error: 'This code has expired.' });
+      res.status(410).json({ error: 'This code has expired.' });
+      return;
     }
 
     if (cred.face_embedding && cred.face_verification_status !== 'verified') {
       if (!face_embedding) {
-        return res.status(403).json({ error: 'Face verification required', face_required: true });
+        res.status(403).json({ error: 'Face verification required', face_required: true });
+        return;
       }
       const storedEmbedding: number[] = JSON.parse(cred.face_embedding);
       const distance = euclideanDistance(storedEmbedding, face_embedding);
 
       if (distance >= FACE_MATCH_THRESHOLD) {
-        return res.status(403).json({ error: 'Face verification failed', match: false, distance });
+        res.status(403).json({ error: 'Face verification failed', match: false, distance });
+        return;
       }
     }
 
@@ -115,7 +121,8 @@ router.post("/credentials/verify", verifyLimiter, requireAuth, async (req: Reque
   try {
     const parsed = VerifySchema.safeParse(req.body);
     if (!parsed.success) {
-      return res.status(400).json({ error: 'Validation failed', details: parsed.error.issues });
+      res.status(400).json({ error: 'Validation failed', details: parsed.error.issues });
+      return;
     }
 
     const { claim_code, vc_id, face_embedding } = parsed.data;
@@ -132,7 +139,8 @@ router.post("/credentials/verify", verifyLimiter, requireAuth, async (req: Reque
 
     if (fetchError) throw fetchError;
     if (!cred) {
-      return res.status(404).json({ status: 'unknown', error: 'Credential not found' });
+      res.status(404).json({ status: 'unknown', error: 'Credential not found' });
+      return;
     }
 
     let faceMatch: boolean | null = null;
