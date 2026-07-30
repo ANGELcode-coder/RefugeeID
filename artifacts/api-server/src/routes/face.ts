@@ -63,9 +63,9 @@ router.post("/face/store", faceLimiter, requireAuth, async (req: Request, res: R
 
     if (error) throw error;
 
-    res.json({ success: true, credential: data });
+    return res.json({ success: true, credential: data });
   } catch (err: any) {
-    res.status(500).json({ error: 'An internal error occurred' });
+    return res.status(500).json({ error: 'An internal error occurred' });
   }
 });
 
@@ -151,9 +151,9 @@ router.post("/face/verify", faceLimiter, requireAuth, async (req: Request, res: 
       })
       .eq('id', credential_id);
 
-    res.json({ match, distance, confidence: confidence.toFixed(1) });
+    return res.json({ match, distance, confidence: confidence.toFixed(1) });
   } catch (err: any) {
-    res.status(500).json({ error: 'An internal error occurred' });
+    return res.status(500).json({ error: 'An internal error occurred' });
   }
 });
 
