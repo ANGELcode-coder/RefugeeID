@@ -6,6 +6,7 @@
   NODE_VERSION = "20"
   VITE_API_URL = "https://workspaceapi-server-production-314d.up.railway.app"
   VITE_SUPABASE_URL = "https://sfggjjfoyeinobtbwpii.supabase.co"
+  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmZ2dqamZveWVpbm9idGJ3cGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzNTc2OTksImV4cCI6MjEwMDkzMzY5OX0.ljPEbi6ulxlg9uvrE7RyuQkjRpv4dV-m2BBHsSzTTo0"
 
 [[redirects]]
   from = "/*"
