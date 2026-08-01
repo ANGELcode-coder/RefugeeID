@@ -14,7 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { FaceVerify } from '@/components/FaceVerify';
 import { deserializeEmbedding } from '@/lib/face-utils';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://workspaceapi-server-production-314d.up.railway.app';
 
 export default function WalletHome() {
   const { user, session } = useAuth();

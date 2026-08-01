@@ -7,7 +7,7 @@ import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://workspaceapi-server-production-314d.up.railway.app';
 
 export default function RecoverID() {
   const { user } = useAuth();

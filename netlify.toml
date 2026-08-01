@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  VITE_API_URL = "https://workspaceapi-server-production-314d.up.railway.app"
+  VITE_SUPABASE_URL = "https://sfggjjfoyeinobtbwpii.supabase.co"
 
 [[redirects]]
   from = "/*"

@@ -9,7 +9,7 @@ import { Button } from '../components/Button';
 import { InfoBox } from '../components/InfoBox';
 import { StatusBar } from 'expo-status-bar';
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5000';
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'https://workspaceapi-server-production-314d.up.railway.app';
 
 type RecoveryStep = 'options' | 'code' | 'done';
 
